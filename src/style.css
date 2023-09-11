@@ -1,0 +1,19 @@
+body {
+    background: #444;
+    color: #FFF;
+    font-family: 'Poppins', sans-serif;
+}
+
+.main,
+.details {
+    border-radius: 30px;
+    background: #444;
+    filter: drop-shadow(10px 10px 4px rgba(0, 0, 0, 0.50));
+}
+#units .active {
+    color:white;
+    cursor: default;
+}
+#units .active:hover {
+    text-decoration: none;
+}
