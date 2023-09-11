@@ -33,6 +33,28 @@
             axios.get(apiUrl).then(showWeather);
         }
         navigator.geolocation.getCurrentPosition(retrievePosition);
+
+        function displayForecast() {
+            let forecastElement = document.querySelector('#weather_forecast');
+            let forecastHTML = `<h2>Hourly Forecast:</h2>`;
+            let days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu'];
+            days.forEach(function (day) {
+                forecastHTML = forecastHTML + `
+            <div class="col-2 weather_forecast_col px-5 py-3">
+                    <h4 class="weather_forecast_date">
+                        <span class="weather_forecast_day">${day}</span>
+                        <br />
+                        <span class="weather_forecast_number">1 Sep</span>
+                    </h4>
+                    <p class="weather_forecast_icon"></p>
+                    <h3 class="weather_forecast_temperature">
+                        <span class="weather_forecast_temperature_min">12°</span>
+                        <span class="weather_forecast_temperature_max">20°</span>
+                    </h3>
+                </div>`;
+            });
+            forecastElement.innerHTML = forecastHTML;
+        }
         // Weather's data
         function showWeather(response) {
             let city = document.querySelector('#city');
@@ -55,6 +77,7 @@
             let feelsLikeElement = document.querySelector("#feels_like");
             feelsLikeElement.innerHTML = `${feelsLike}°C`;
             celsiusFillLikeTemperature = response.data.temperature.feels_like;
+
 
             let description = document.querySelector("#description");
             description.innerHTML = `${response.data.condition.description}`;
@@ -122,3 +145,5 @@
 
         let celsiusLink = document.querySelector("#celsius_link");
         celsiusLink.addEventListener("click", showCelsiusTemperature);
+
+        displayForecast();
