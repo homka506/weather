@@ -1,6 +1,7 @@
   let apiKey = '2f02e3ctafa3oa9b5849c5a89408c6d7';
   // Default city
   let defaultCity = "Kyiv";
+
   let date = new Date();
   let title = document.querySelector("#current_date");
   let time = document.querySelector("#current_time");
@@ -26,30 +27,59 @@
   currentMonth.innerHTML = `${monthName}`;
 
 
-  function displayForecast() {
+  //other days
+  function formatDay(timestamp) {
+      let date = new Date(timestamp * 1000);
+      let day = date.getDay();
+      let daysWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      return daysWeek[day];
+  }
+  //other days
+  function formatMonth(timestamp) {
+      let date = new Date(timestamp * 1000);
+      let month = date.getMonth();
+      let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      return months[month];
+  }
+  //other days
+  function formatNumber(timestamp) {
+      let date = new Date(timestamp * 1000);
+      let number = date.getDate();
+      let numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"];
+      return numbers[number];
+  }
+
+  function displayForecast(response) {
+      console.log(response.data.daily);
+      let forecast = response.data.daily;
+
       let forecastElement = document.querySelector('#weather_forecast');
       let forecastHTML = `<h2>Hourly Forecast:</h2>`;
-      let days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu'];
-      days.forEach(function (day) {
-          forecastHTML = forecastHTML + `
-            <div class="col-2 weather_forecast_col px-5 py-3">
+      forecast.forEach(function (forecastDay, index) {
+          if (index < 5) {
+              forecastHTML = forecastHTML + `
+            <div class="col-2 weather_forecast_col px-5 py-3 d-flex ">
                     <h4 class="weather_forecast_date">
-                        <span class="weather_forecast_day">${day}</span> 
-                        <br />
-                        <span class="weather_forecast_number">1 Sep</span>
+                        <p class="weather_forecast_day">${formatDay(forecastDay.time)}</p>
+                        <span class="weather_forecast_day">${formatMonth(forecastDay.time)}</span> 
+                        <span class="weather_forecast_day">${formatNumber(forecastDay.time)}</span>   
                     </h4>
-                    <p class="weather_forecast_icon"></p>
+                    <img src =${forecastDay.condition.icon_url} alt=${forecastDay.condition.icon} class = "weather_forecast_icon" width:50px;>
+                    
                     <h3 class="weather_forecast_temperature">
-                        <span class="weather_forecast_temperature_min">12°</span>
-                        <span class="weather_forecast_temperature_max">20°</span>
+                      <p class="weather_forecast_temperature_min">${Math.round(forecastDay.temperature.day)}°</p>
+                        <span class="weather_forecast_temperature_min">${Math.round(forecastDay.temperature.minimum)}°</span>
+                        <span class="weather_forecast_temperature_max">${Math.round(forecastDay.temperature.maximum)}°</span>
                     </h3>
                 </div>`;
+          }
       });
       forecastElement.innerHTML = forecastHTML;
   }
 
   function getForecast(coordinates) {
       console.log(coordinates);
+      let apiKey = '2f02e3ctafa3oa9b5849c5a89408c6d7';
       let apiUrl = `https://api.shecodes.io/weather/v1/forecast?lon=${coordinates.longitude}&lat=${coordinates.latitude}&key=${apiKey}`
       console.log(apiUrl);
       axios.get(apiUrl).then(displayForecast);
@@ -138,7 +168,7 @@
 
 
   fetchWeatherData(defaultCity);
-  
+
   //convert temperature
   function showFahrenheitTemperature(event) {
       event.preventDefault();
