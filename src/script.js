@@ -50,7 +50,6 @@
   }
 
   function displayForecast(response) {
-      console.log(response.data.daily);
       let forecast = response.data.daily;
 
       let forecastElement = document.querySelector('#weather_forecast');
@@ -58,7 +57,7 @@
       forecast.forEach(function (forecastDay, index) {
           if (index < 5) {
               forecastHTML = forecastHTML + `
-            <div class="col-2 weather_forecast_col px-5 py-3 d-flex ">
+            <div div class = "col-2 weather_forecast_col px-5 py-3 d-flex flex-column justify-content-center align-items-center text-center">
                     <h4 class="weather_forecast_date">
                         <p class="weather_forecast_day">${formatDay(forecastDay.time)}</p>
                         <span class="weather_forecast_day">${formatMonth(forecastDay.time)}</span> 
@@ -66,11 +65,11 @@
                     </h4>
                     <img src =${forecastDay.condition.icon_url} alt=${forecastDay.condition.icon} class = "weather_forecast_icon" width:50px;>
                     
-                    <h3 class="weather_forecast_temperature">
-                      <p class="weather_forecast_temperature_min">${Math.round(forecastDay.temperature.day)}°</p>
-                        <span class="weather_forecast_temperature_min">${Math.round(forecastDay.temperature.minimum)}°</span>
+                    <h5>
+                      <p class="weather_forecast_temperatures">${Math.round(forecastDay.temperature.day)}°</p>
+                        <span class="weather_forecast_temperature_min  pe-2">${Math.round(forecastDay.temperature.minimum)}°</span>
                         <span class="weather_forecast_temperature_max">${Math.round(forecastDay.temperature.maximum)}°</span>
-                    </h3>
+                    </h5>
                 </div>`;
           }
       });
@@ -78,10 +77,8 @@
   }
 
   function getForecast(coordinates) {
-      console.log(coordinates);
       let apiKey = '2f02e3ctafa3oa9b5849c5a89408c6d7';
       let apiUrl = `https://api.shecodes.io/weather/v1/forecast?lon=${coordinates.longitude}&lat=${coordinates.latitude}&key=${apiKey}`
-      console.log(apiUrl);
       axios.get(apiUrl).then(displayForecast);
 
   }
@@ -173,11 +170,13 @@
   function showFahrenheitTemperature(event) {
       event.preventDefault();
       let temperatureElement = document.querySelector('#temperature');
+      let feelsLikeElement = document.querySelector("#feels_like");
+
       //remove the active class  the celsius link 
       celsiusLink.classList.remove("active");
       //add the active class  the fahrenheit link 
       fahrenheitLink.classList.add("active");
-      let feelsLikeElement = document.querySelector("#feels_like");
+
       let fahrenheitTemperature = (celsiusTemperature * 9) / 5 + 32;
       let fahrenheitFillLikeTemperature = (celsiusFillLikeTemperature * 9) / 5 + 32;
       temperatureElement.innerHTML = Math.round(fahrenheitTemperature);
@@ -186,16 +185,16 @@
 
   function showCelsiusTemperature(event) {
       event.preventDefault();
+      let temperatureElement = document.querySelector('#temperature');
+      let feelsLikeElement = document.querySelector("#feels_like");
+
       //add the active class  the celsius link 
       celsiusLink.classList.add("active");
       //remove the active class  the fahrenheit link 
       fahrenheitLink.classList.remove("active");
 
-      let temperatureElement = document.querySelector('#temperature');
-      let feelsLikeElement = document.querySelector("#feels_like");
       temperatureElement.innerHTML = Math.round(celsiusTemperature);
       feelsLikeElement.innerHTML = Math.round(celsiusFillLikeTemperature);
-
   }
   let fahrenheitLink = document.querySelector("#fahrenheit_link");
   fahrenheitLink.addEventListener("click", showFahrenheitTemperature);

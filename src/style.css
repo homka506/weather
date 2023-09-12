@@ -19,6 +19,9 @@ body {
  #search_input::placeholder{
         color:white;
  }
+ #description::first-letter{
+    text-transform: capitalize;
+ }
 #units .active {
     color:white;
     cursor: default;
@@ -29,4 +32,8 @@ body {
 .weather_forecast_col {
     border-radius: 40px;
     background: #373636;
+}
+.weather_forecast_temperature_min,
+.text{
+    color: rgba(255, 255, 255, 0.60);
 }
