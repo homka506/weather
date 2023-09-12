@@ -57,7 +57,7 @@
       forecast.forEach(function (forecastDay, index) {
           if (index < 5) {
               forecastHTML = forecastHTML + `
-            <div div class = "col-2 weather_forecast_col px-5 py-3 d-flex flex-column justify-content-center align-items-center text-center">
+            <div class = "col-xl-2 col-sm-5 weather_forecast_col px-5 py-3 d-flex flex-column justify-content-center align-items-center text-center" >
                     <h4 class="weather_forecast_date">
                         <p class="weather_forecast_day">${formatDay(forecastDay.time)}</p>
                         <span class="weather_forecast_day">${formatMonth(forecastDay.time)}</span> 
